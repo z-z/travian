@@ -1,4 +1,4 @@
-# travian
+# TravianScripts
 
 утилиты, упрощающие жизнь в travian
 
