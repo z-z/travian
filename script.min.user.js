@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         TradeSummer
-// @version      1.0.4
+// @version      1.0.5
 // @author       z-z
 // @include      http://*.travian.*
 // @include      http://*.travian.*.*
