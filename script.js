@@ -262,3 +262,51 @@ function getVidFromCoords ( txt ) {
 // эта строка отмечает новые сообщения и новые отчеты галочками, чтобы просто можно было нажать "удалить" сразу
 
 $$('#overview tr').each(function(el){ if(el.getChildren()[1].hasClass('newMessage')) el.getChildren()[0].getChildren()[0].checked = true; });
+
+
+
+
+
+
+
+if ( $('merchantsOnTheWay') ) {
+    
+    var $block = $('merchantsOnTheWay');
+    var traders = [];
+    
+    if ( $block.getChildren('h4').length == 1 ) {
+        traders = [$block.getChildren('.traders')];
+    } else {
+        var arr = [];
+        $block.getChildren().forEach( function(item, i, arr) {
+            if ( item.tagName == "H4" ) {
+                traders.push([]);
+            } else {
+                traders[traders.length-1].push(item);
+            }
+        } );
+    }
+    
+    traders.forEach(function( item, i, arr ){
+        var h4 = $block.getChildren('h4')[i];
+        var r1 = 0, r2 = 0, r3 = 0, r4 = 0;
+        if(!Array.isArray(item)) item = [item];
+        item.forEach(function(item1, i1, arr1){
+            var res = item1.getElements("tr.res")[0].getElements('td')[0].getChildren('span')[0];
+            if(!res.hasClass('none')) {
+                res = res.innerHTML.replace(/<div[^>]*>.*<\/div>/gi, "").replace(/<img[^>]*>/gi, "|").replace(/<[^>]*>|[\n\r\t\s]/gi, "").slice(1).split('|');
+                r1 += parseInt(res[0]);
+                r2 += parseInt(res[1]);
+                r3 += parseInt(res[2]);
+                r4 += parseInt(res[3]);
+            }
+        });
+        
+        var resStr = '<img class="r1" src="img/x.gif" alt="">' + r1 + '<img class="r2" src="img/x.gif" alt="">' + r2 + '<img class="r3" src="img/x.gif" alt="">' + r3 + '<img class="r4" src="img/x.gif" alt="">' + r4;
+        var table = '<table class="traders" cellpadding=1 cellspacing=1><tr class="res"><th>Всего</th><td colspan=2><span>' + resStr + '</span></td></tr></table>';
+        
+        var $t = Elements.from(table)[0];
+        $t.inject(h4, 'after');
+    });
+    
+}
